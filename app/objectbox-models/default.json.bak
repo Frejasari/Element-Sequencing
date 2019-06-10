@@ -1,0 +1,96 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:4944782590391977926",
+      "lastPropertyId": "7:5481956004710705649",
+      "name": "PersonalAsana",
+      "properties": [
+        {
+          "id": "1:3154540713799140187",
+          "name": "id"
+        },
+        {
+          "id": "2:3903791798445481934",
+          "name": "createdAd"
+        },
+        {
+          "id": "3:4496114414340888242",
+          "name": "notes"
+        },
+        {
+          "id": "4:1435688977414561938",
+          "name": "element"
+        },
+        {
+          "id": "5:3581886740663703356",
+          "name": "level"
+        },
+        {
+          "id": "6:2963680512921855663",
+          "name": "category"
+        },
+        {
+          "id": "7:5481956004710705649",
+          "indexId": "1:1346931936813528537",
+          "name": "asanaId"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:566057514628780277",
+      "lastPropertyId": "5:4691888307478679501",
+      "name": "Asana",
+      "properties": [
+        {
+          "id": "1:2816972353003949554",
+          "name": "id"
+        },
+        {
+          "id": "2:1243587482746638494",
+          "name": "createdAd"
+        },
+        {
+          "id": "3:8026459312778472002",
+          "name": "name"
+        },
+        {
+          "id": "4:1940083828479768066",
+          "name": "sanskritName"
+        },
+        {
+          "id": "5:4691888307478679501",
+          "name": "images"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:566057514628780277",
+  "lastIndexId": "1:1346931936813528537",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [
+    3240262429553695616
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    6738714198137054385,
+    3813644593349600444,
+    5286902182744072007,
+    7103784826474827685,
+    3477618997446990525,
+    1084701101189803577,
+    2322667619498459875,
+    1586149112622889827,
+    6313152865511967730,
+    2854425593983470452
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

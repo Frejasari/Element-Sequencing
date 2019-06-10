@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Element Sequencing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_book_abort">Abort</string>
+    <string name="create_book_save">Save</string>
+    <string name="add_book_button">Add</string>
+    <string name="edit_book_title">Edit Book</string>
+    <string name="edit_book_current_page_hint">Current Page</string>
+    <string name="new_asana_headline">Neue Asana</string>
+    <string name="create_asana_name">Name</string>
+    <string name="create_sanskrit_name">Sanskrit Name</string>
+    <string name="difficulty_bar_label">Schwierigkeit</string>
+    <string name="add_asana_notes_label">Notizen</string>
+</resources>

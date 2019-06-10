@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:orientation="vertical"
+    tools:parentTag="LinearLayout">
+
+    <TextView
+        android:id="@+id/DifficultyBar_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:text="@string/difficulty_bar_label"
+        android:textAppearance="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textSize="14sp"
+        tools:text='Schwierigkeit' />
+
+    <SeekBar
+        android:id="@+id/DifficultyBar_progress_bar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="2"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/DifficultyBar_selected_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingStart="8dp"
+        tools:text='Anfaenger' />
+
+</merge>
