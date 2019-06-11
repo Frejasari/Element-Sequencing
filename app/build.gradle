@@ -6,8 +6,6 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'io.objectbox'
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -27,6 +25,8 @@ android {
 }
 
 dependencies {
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+    releaseImplementation "io.objectbox:objectbox-android:$objectboxVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.material:material:1.1.0-alpha06'
@@ -44,3 +44,5 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     implementation 'com.google.code.gson:gson:2.8.5'
 }
+
+apply plugin: 'io.objectbox'

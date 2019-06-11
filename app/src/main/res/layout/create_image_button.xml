@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="100dp">
+
+<de.frejaundalex.elementsequencing.view.RoundedCornersFrame xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="104dp"
+    android:layout_height="104dp"
+    android:layout_margin="8dp">
 
     <de.frejaundalex.elementsequencing.view.RoundedCornersImageView
         android:id="@+id/imagePreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
         android:background="#ddd"
         android:foreground="?attr/selectableItemBackground"
         android:scaleType="centerCrop" />
@@ -22,4 +23,16 @@
         android:alpha="0.2"
         android:src="@drawable/add_picture" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/CreateImageButton_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#BBCCCCCC"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:padding="4dp"
+        android:text="Foto"
+        android:textSize="12sp" />
+
+</de.frejaundalex.elementsequencing.view.RoundedCornersFrame>

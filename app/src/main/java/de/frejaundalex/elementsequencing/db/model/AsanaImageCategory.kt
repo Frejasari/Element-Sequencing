@@ -2,7 +2,15 @@ package de.frejaundalex.elementsequencing.db.model
 
 import java.io.Serializable
 
-sealed class AsanaImageCategory(val code: Int) : Serializable {
-    object Photo : AsanaImageCategory(19)
-    object Stickfigure : AsanaImageCategory(18)
+sealed class AsanaImageCategory(val code: Int, val name: String) : Serializable {
+    object Photo : AsanaImageCategory(19, "Foto")
+    object Stickfigure : AsanaImageCategory(18, "Strichmännchen")
+
+    companion object {
+        val all = listOf(Photo, Stickfigure)
+
+        fun fromDbName(dbName: String): AsanaImageCategory {
+            return all.first { it.name == dbName }
+        }
+    }
 }

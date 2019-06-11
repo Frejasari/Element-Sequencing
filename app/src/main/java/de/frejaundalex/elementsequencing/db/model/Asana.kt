@@ -21,7 +21,8 @@ data class Asana(
 class ImageMapConverter : PropertyConverter<Map<AsanaImageCategory, Uri>, String> {
     private val gson = Gson()
     override fun convertToDatabaseValue(entityProperty: Map<AsanaImageCategory, Uri>): String {
-        return gson.toJson(entityProperty)
+        val stringMap = entityProperty.map { Pair(it.key, it.value.toString()) }.toMap()
+        return gson.toJson(stringMap)
     }
 
     override fun convertToEntityProperty(databaseValue: String): Map<AsanaImageCategory, Uri> {

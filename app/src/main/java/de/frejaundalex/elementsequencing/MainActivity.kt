@@ -2,6 +2,7 @@ package de.frejaundalex.elementsequencing
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,10 +15,11 @@ import de.frejaundalex.elementsequencing.menu.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
 
+    private var interfaceDisabled = false
+
     private val HOME = "HOME"
     private val LIBRARY = "LIBRARY"
     private val PROFILE = "PROFILE"
-
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,22 @@ class MainActivity : AppCompatActivity() {
         menu.setOnNavigationItemSelectedListener { menuItem ->
             viewModel.menuItemClicked(menuItem.itemId)
         }
+    }
+
+    override fun onPause() {
+        interfaceDisabled = true
+        super.onPause()
+    }
+
+    override fun onResume() {
+        interfaceDisabled = false
+        super.onResume()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        return if (interfaceDisabled) {
+            interfaceDisabled
+        } else super.dispatchTouchEvent(ev)
     }
 
     private fun showAddBook() {

@@ -85,11 +85,10 @@ class ElementSelection @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
-        val state = Bundle().apply {
+        return Bundle().apply {
             putParcelable("superState", superState)
             putStringArrayList("elements", ArrayList(selectedElements.map { it.name }))
         }
-        return state
 
     }
 }

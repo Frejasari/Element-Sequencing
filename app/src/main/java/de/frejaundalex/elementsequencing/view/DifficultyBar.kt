@@ -1,6 +1,8 @@
 package de.frejaundalex.elementsequencing.view
 
 import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -16,6 +18,9 @@ class DifficultyBar @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
+    val DIFFICULTY_LVL = "difficultyLevel"
+    val SUPER_STATE = "superState"
+
 
     private var difficultyBar: SeekBar
     private lateinit var label: TextView
@@ -47,5 +52,19 @@ class DifficultyBar @JvmOverloads constructor(
         difficultyBar.progress = 0
         difficulty = Difficulty.Beginner
         difficultyBar.max = 2
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        state as Bundle
+        super.onRestoreInstanceState(state.getParcelable(SUPER_STATE))
+        difficulty = Difficulty.all.first { state.getInt(DIFFICULTY_LVL) == it.lvl }
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        return Bundle().apply {
+            putParcelable(SUPER_STATE, superState)
+            putInt(DIFFICULTY_LVL, difficulty.lvl)
+        }
     }
 }
