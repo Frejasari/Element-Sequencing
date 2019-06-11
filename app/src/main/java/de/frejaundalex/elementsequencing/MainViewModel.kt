@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
     val menuFragment = MutableLiveData<MenuFragment>()
-    val showAddBookFragment = MutableLiveData<Unit>()
+    val showAddAsanaFragment = MutableLiveData<Boolean>()
 
     init {
         menuFragment.value = MenuFragment.Home
@@ -14,7 +14,7 @@ class MainViewModel : ViewModel() {
     fun menuItemClicked(itemId: Int): Boolean {
         return when (itemId) {
             R.id.add -> {
-                showAddBookFragment()
+                showAddAsanaFragment()
                 false
             }
             else -> {
@@ -24,8 +24,9 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun showAddBookFragment() {
-        showAddBookFragment.value = Unit
+    private fun showAddAsanaFragment() {
+        showAddAsanaFragment.value = true
+        showAddAsanaFragment.value = false
     }
 
     private fun switchFragment(itemId: Int) {

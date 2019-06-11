@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
                 MenuFragment.Profile -> showSelfFragment()
             }
         })
-        viewModel.showAddBookFragment.observe(this, Observer {
-            showAddBook()
+        viewModel.showAddAsanaFragment.observe(this, Observer {
+            if (it == true) showAddBook()
         })
 
         val menu = findViewById<BottomNavigationView>(R.id.menu)
