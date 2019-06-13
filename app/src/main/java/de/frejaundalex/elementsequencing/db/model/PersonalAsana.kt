@@ -6,17 +6,17 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
 
 @Entity
-data class PersonalAsana(
-    @Id var id: Long,
-    val createdAt: String,
-    val notes: String?,
+class PersonalAsana(
+    @Id var id: Long = 0,
+    var createdAt: String = "",
+    var notes: String? = null,
 
     @Convert(converter = ElementListConverter::class, dbType = String::class)
-    val elements: List<Element>,
+    var elements: List<Element> = listOf(),
 
     @Convert(converter = DifficultyConverter::class, dbType = Int::class)
-    val level: Difficulty,
-    val category: String?
+    var level: Difficulty = Difficulty.Beginner,
+    var category: String? = null
 ) {
     lateinit var asana: ToOne<Asana>
 }

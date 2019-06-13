@@ -1,60 +1,70 @@
 package de.frejaundalex.elementsequencing.library
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import de.frejaundalex.elementsequencing.R
 import de.frejaundalex.elementsequencing.db.ObjectBox
 import de.frejaundalex.elementsequencing.db.model.Asana
+import de.frejaundalex.elementsequencing.db.model.AsanaImageCategory
+import de.frejaundalex.elementsequencing.db.model.PersonalAsana
+import de.frejaundalex.elementsequencing.view.ElementView
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.kotlin.boxFor
 import io.objectbox.reactive.DataSubscriptionList
 
 
-const val BOOK_ID = "BOOK_ID"
-
 class LibraryFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = LibraryFragment()
-    }
 
     private lateinit var viewModel: LibraryViewModel
 
     private val dataSubscriptionList = DataSubscriptionList()
 
-    private val bookBox = ObjectBox.get().boxFor(Asana::class)
+    private val personalAsanaBox = ObjectBox.get().boxFor(PersonalAsana::class)
+    private val asanaBox = ObjectBox.get().boxFor(Asana::class)
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(de.frejaundalex.elementsequencing.R.layout.library_fragment, container, false)
+        val view = inflater.inflate(R.layout.library_fragment, container, false)
 
-        val bookRecyclerView = view.findViewById<RecyclerView>(de.frejaundalex.elementsequencing.R.id.asanaRecyclerView)
-        bookRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        val bookListAdapter = BookListAdapter(this::onBookClicked)
+        val bookRecyclerView = view.findViewById<RecyclerView>(R.id.asanaRecyclerView)
+        bookRecyclerView.layoutManager = GridLayoutManager(view.context, 3)
+        val bookListAdapter = AsanaListAdapter(this::onAsanaClicked)
         bookRecyclerView.adapter = bookListAdapter
-        val query = bookBox.query().build()
+        val query = personalAsanaBox.query().build()
+        val queryAsana = asanaBox.query().build()
+
+        Log.i("ObjectBox", " Items in asana box ${queryAsana.find()}")
+        Log.i("ObjectBox", " Items in personal box ${query.find()}")
         query.subscribe(dataSubscriptionList)
             .on(AndroidScheduler.mainThread())
+            .onError { error ->
+                Log.e("ObjectBoxError", "Error: ${error.localizedMessage}")
+                error.printStackTrace()
+            }
             .observer { data ->
-                bookListAdapter.books = data.reversed();
+                bookListAdapter.personalAsanas = data.reversed()
                 bookListAdapter.notifyDataSetChanged()
             }
 
         return view
     }
 
-    private fun onBookClicked(id: Long) {
+    private fun onAsanaClicked(id: Long) {
 //        startActivity(Intent(this.context, EditBookActivity::class.java).apply {
 //            putExtra(BOOK_ID, id)
 //        })
@@ -72,14 +82,14 @@ class LibraryFragment : Fragment() {
     }
 }
 
-class BookListAdapter(val onBookClick: (id: Long) -> Unit) : RecyclerView.Adapter<BookItemViewHolder>() {
+class AsanaListAdapter(val onAsanaClicked: (id: Long) -> Unit) : RecyclerView.Adapter<AsanaViewHolder>() {
 
-    var books: List<Asana> = listOf()
+    var personalAsanas: List<PersonalAsana> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookItemViewHolder {
-        return BookItemViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsanaViewHolder {
+        return AsanaViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                de.frejaundalex.elementsequencing.R.layout.asana_list_item,
+                R.layout.asana_list_item,
                 parent,
                 false
             )
@@ -87,21 +97,36 @@ class BookListAdapter(val onBookClick: (id: Long) -> Unit) : RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
-        return books.size
+        return personalAsanas.size
     }
 
-    override fun onBindViewHolder(holder: BookItemViewHolder, position: Int) {
-        val book = books[position]
+    override fun onBindViewHolder(holder: AsanaViewHolder, position: Int) {
+        val personalAsana = personalAsanas[position]
+        var uri: Uri? = null
+        val asana = personalAsana.asana.target
+        val stickfigureImg = asana.images[AsanaImageCategory.Stickfigure]
+        val photoImg = asana.images[AsanaImageCategory.Photo]
 
-        holder.bookView.setOnClickListener { onBookClick(book.id) }
-        if (book.sanskritName.isEmpty()) {
-        } else {
+        if (stickfigureImg != Uri.EMPTY && stickfigureImg != null) {
+            uri = stickfigureImg
+        } else if (photoImg != null && photoImg != Uri.EMPTY) {
+            uri = photoImg
         }
+        if (uri != null) {
+            Picasso.get().load(uri).fit().centerCrop().into(holder.image)
+        }
+
+        holder.elementView.setElements(*personalAsana.elements.toTypedArray())
+
+        holder.name.text = asana.name
+
+        holder.asanaView.setOnClickListener { onAsanaClicked(personalAsana.id) }
     }
 }
 
-class BookItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val cover: ImageView = view.findViewById(de.frejaundalex.elementsequencing.R.id.LibraryListItem_bookCover)
-    val bookView: ConstraintLayout = view.findViewById(de.frejaundalex.elementsequencing.R.id.book)
-
+class AsanaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val image: ImageView = view.findViewById(R.id.LibraryAsanaItem_image)
+    val asanaView: ConstraintLayout = view.findViewById(R.id.LibraryAsanaItem_layout)
+    val name: TextView = view.findViewById(R.id.LibraryAsanaItem_name)
+    val elementView: ElementView = view.findViewById(R.id.LibraryAsanaItem_elementView)
 }

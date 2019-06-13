@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     tools:orientation="horizontal"
@@ -14,11 +14,6 @@
         android:layout_height="56dp"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/element_drawable_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/water"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/erde" />
 
     <ImageView
@@ -27,12 +22,6 @@
         android:layout_height="56dp"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/element_drawable_padding"
-        app:layout_constraintBottom_toBottomOf="@+id/earth"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/fire"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/earth"
-        app:layout_constraintTop_toTopOf="@+id/earth"
         app:srcCompat="@drawable/water" />
 
     <ImageView
@@ -41,11 +30,6 @@
         android:layout_height="56dp"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/element_drawable_padding"
-        app:layout_constraintBottom_toBottomOf="@+id/earth"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/air"
-        app:layout_constraintStart_toEndOf="@+id/water"
-        app:layout_constraintTop_toTopOf="@+id/earth"
         app:srcCompat="@drawable/fire" />
 
     <ImageView
@@ -54,11 +38,6 @@
         android:layout_height="56dp"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/element_drawable_padding"
-        app:layout_constraintBottom_toBottomOf="@+id/earth"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/space"
-        app:layout_constraintStart_toEndOf="@+id/fire"
-        app:layout_constraintTop_toTopOf="@+id/earth"
         app:srcCompat="@drawable/air" />
 
     <ImageView
@@ -67,11 +46,6 @@
         android:layout_height="56dp"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/element_drawable_padding"
-        app:layout_constraintBottom_toBottomOf="@+id/earth"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/air"
-        app:layout_constraintTop_toTopOf="@+id/earth"
         app:srcCompat="@drawable/space" />
 
 </merge>

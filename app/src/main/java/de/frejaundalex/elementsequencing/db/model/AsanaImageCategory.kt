@@ -9,8 +9,8 @@ sealed class AsanaImageCategory(val code: Int, val name: String) : Serializable 
     companion object {
         val all = listOf(Photo, Stickfigure)
 
-        fun fromDbName(dbName: String): AsanaImageCategory {
-            return all.first { it.name == dbName }
+        fun fromCode(code: Int): AsanaImageCategory {
+            return all.first { it.code == code }
         }
     }
 }

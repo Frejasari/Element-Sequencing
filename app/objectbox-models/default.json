@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "2:4944782590391977926",
-      "lastPropertyId": "9:566945511862534928",
+      "lastPropertyId": "10:3474254042023309520",
       "name": "PersonalAsana",
       "properties": [
         {
@@ -25,17 +25,17 @@
           "name": "category"
         },
         {
-          "id": "7:5481956004710705649",
-          "indexId": "1:1346931936813528537",
-          "name": "asanaId"
-        },
-        {
           "id": "8:5678655028713155065",
           "name": "createdAt"
         },
         {
           "id": "9:566945511862534928",
           "name": "elements"
+        },
+        {
+          "id": "10:3474254042023309520",
+          "indexId": "2:4185813343798651361",
+          "name": "asanaId"
         }
       ],
       "relations": []
@@ -70,7 +70,7 @@
     }
   ],
   "lastEntityId": "3:566057514628780277",
-  "lastIndexId": "1:1346931936813528537",
+  "lastIndexId": "2:4185813343798651361",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
@@ -78,7 +78,9 @@
   "retiredEntityUids": [
     3240262429553695616
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    1346931936813528537
+  ],
   "retiredPropertyUids": [
     6738714198137054385,
     3813644593349600444,
@@ -92,7 +94,8 @@
     2854425593983470452,
     3903791798445481934,
     1435688977414561938,
-    1243587482746638494
+    1243587482746638494,
+    5481956004710705649
   ],
   "retiredRelationUids": [],
   "version": 1
