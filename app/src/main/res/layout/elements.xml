@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="54">
@@ -14,7 +14,6 @@
         android:layout_weight="10"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:visibility="gone"
         app:srcCompat="@drawable/erde" />
 
     <Space
@@ -46,7 +45,6 @@
         android:layout_weight="10"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:visibility="gone"
         app:srcCompat="@drawable/fire" />
 
     <Space

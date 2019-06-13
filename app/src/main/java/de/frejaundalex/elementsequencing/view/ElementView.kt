@@ -1,7 +1,6 @@
 package de.frejaundalex.elementsequencing.view
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Parcelable
@@ -12,14 +11,23 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import de.frejaundalex.elementsequencing.R
 import de.frejaundalex.elementsequencing.db.model.Element
 import kotlin.properties.Delegates
 
+
 class ElementView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
+
+    enum class UnselectedType(val id: Int, val visibility: Int, val withColor: Boolean) {
+        INVISIBLE_COLORED(0, View.INVISIBLE, true),
+        INVISIBLE(1, View.INVISIBLE, false),
+        GONE_COLORED(2, View.GONE, true),
+        GONE(3, View.GONE, false),
+        GREY(4, View.VISIBLE, true)
+    }
+
 
     private lateinit var earth: ImageView
     private lateinit var earthSpacer: Space
@@ -34,37 +42,78 @@ class ElementView @JvmOverloads constructor(
 
     private lateinit var space: ImageView
 
-    private var selectedElements by Delegates.observable(
+    private val elementViewMap: Map<Element, ImageView> by lazy {
         mapOf(
-            Element.Earth to View.GONE, Element.Water to View.GONE,
-            Element.Fire to View.GONE, Element.Air to View.GONE, Element.Space to View.GONE
+            Element.Earth to earth,
+            Element.Water to water,
+            Element.Fire to fire,
+            Element.Air to air,
+            Element.Space to space
         )
-    ) { property, oldValue, newValue ->
-        newValue.entries.forEach { (element, visibility) ->
-            when (element) {
-                Element.Earth -> {
-                    earth.visibility = visibility
-                    earthSpacer.visibility = visibility
+    }
+
+
+    var unselectedType: UnselectedType by Delegates.observable(UnselectedType.GREY) { property, oldValue, newValue ->
+        setup(selectedElements, newValue)
+    }
+
+    private var selectedElements: Map<Element, Boolean> by Delegates.observable(
+        mapOf(
+            Element.Earth to true, Element.Water to true,
+            Element.Fire to true, Element.Air to true, Element.Space to true
+        )
+    ) { property, oldValue, newValue -> setup(newValue, unselectedType) }
+
+    private fun setup(elements: Map<Element, Boolean>, unselectedType: UnselectedType) {
+        elements.entries.forEach { (element, visibility) ->
+            if (visibility) {
+                when (element) {
+                    Element.Earth -> {
+                        earth.visibility = View.VISIBLE
+                        earthSpacer.visibility = View.VISIBLE
+                    }
+                    Element.Water -> {
+                        water.visibility = View.VISIBLE
+                        waterSpacer.visibility = View.VISIBLE
+                    }
+                    Element.Fire -> {
+                        fire.visibility = View.VISIBLE
+                        fireSpacer.visibility = View.VISIBLE
+                    }
+                    Element.Air -> {
+                        air.visibility = View.VISIBLE
+                        airSpacer.visibility = View.VISIBLE
+                    }
+                    Element.Space -> {
+                        space.visibility = View.VISIBLE
+                    }
                 }
-                Element.Water -> {
-                    water.visibility = visibility
-                    waterSpacer.visibility = visibility
+                setElementColor(element, unselectedType.withColor)
+            } else {
+                when (element) {
+                    Element.Earth -> {
+                        earth.visibility = unselectedType.visibility
+                        earthSpacer.visibility = unselectedType.visibility
+                    }
+                    Element.Water -> {
+                        water.visibility = unselectedType.visibility
+                        waterSpacer.visibility = unselectedType.visibility
+                    }
+                    Element.Fire -> {
+                        fire.visibility = unselectedType.visibility
+                        fireSpacer.visibility = unselectedType.visibility
+                    }
+                    Element.Air -> {
+                        air.visibility = unselectedType.visibility
+                        airSpacer.visibility = unselectedType.visibility
+                    }
+                    Element.Space -> {
+                        space.visibility = unselectedType.visibility
+                    }
                 }
-                Element.Fire -> {
-                    fire.visibility = visibility
-                    fireSpacer.visibility = visibility
-                }
-                Element.Air -> {
-                    air.visibility = visibility
-                    airSpacer.visibility = visibility
-                }
-                Element.Space -> {
-                    space.visibility = visibility
-                }
+                setElementColor(element, false)
             }
         }
-        val last = this.children.lastOrNull { child -> child.visibility == View.VISIBLE }
-        if (last is Space) last.visibility = View.GONE
     }
 
     var withColor by Delegates.observable(true) { _, _, _ ->
@@ -106,38 +155,27 @@ class ElementView @JvmOverloads constructor(
     }
 
     private fun applyColors() {
-        setElementColor(Element.Earth, earth)
-        setElementColor(Element.Water, water)
-        setElementColor(Element.Fire, fire)
-        setElementColor(Element.Air, air)
-        setElementColor(Element.Space, space)
+        elementViewMap.keys.forEach { element -> setElementColor(element, true) }
     }
 
-    private fun setElementColor(element: Element, button: ImageView) {
+    private fun setElementColor(element: Element, withColor: Boolean) {
+        val elementView = elementViewMap[element]!!
         if (withColor) {
-            button.setColorFilter(
-                ContextCompat.getColor(button.context, element.color),
+            elementView.setColorFilter(
+                ContextCompat.getColor(elementView.context, element.color),
                 PorterDuff.Mode.SRC_ATOP
             )
         } else {
-            button.setColorFilter(
-                Color.TRANSPARENT,
+            elementView.setColorFilter(
+                ContextCompat.getColor(elementView.context, R.color.elementNotSelected),
                 PorterDuff.Mode.SRC_ATOP
             )
         }
     }
 
-    private fun setElement(show: Boolean, element: Element) {
-        if (show) {
-            setElement(View.VISIBLE, element)
-        } else {
-            setElement(View.GONE, element)
-        }
-    }
-
-    private fun setElement(visibility: Int, element: Element) {
+    private fun setElement(isVisible: Boolean, element: Element) {
         val mutableMap = selectedElements.toMutableMap()
-        mutableMap[element] = visibility
+        mutableMap[element] = isVisible
         selectedElements = mutableMap
     }
 
@@ -145,7 +183,7 @@ class ElementView @JvmOverloads constructor(
         state as Bundle
         super.onRestoreInstanceState(state.getParcelable("superState"))
         selectedElements.entries.forEach { (element, _) ->
-            setElement(state.getInt(element.name), element)
+            setElement(state.getBoolean(element.name), element)
         }
         this.withColor = state.getBoolean("withColor")
     }
@@ -158,7 +196,7 @@ class ElementView @JvmOverloads constructor(
             putBoolean("withColor", withColor)
         }
         selectedElements.entries.forEach { (element, visibility) ->
-            bundle.putInt(element.name, visibility)
+            bundle.putBoolean(element.name, visibility)
         }
         return bundle
     }

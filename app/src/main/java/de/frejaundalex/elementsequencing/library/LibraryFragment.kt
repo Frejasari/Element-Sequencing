@@ -66,7 +66,7 @@ class LibraryFragment : Fragment() {
 
     private fun onAsanaClicked(id: Long) {
 //        startActivity(Intent(this.context, EditBookActivity::class.java).apply {
-//            putExtra(BOOK_ID, id)
+//            putExtra(BOOK_ID, visibility)
 //        })
         Log.i("TAG<", "MAKE CLICK HANDLING")
     }

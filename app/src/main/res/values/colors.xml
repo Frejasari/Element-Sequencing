@@ -17,6 +17,5 @@
     <color name="fire">#ffa726</color>
     <color name="air">#80d6ff</color>
     <color name="space">#90a4ae</color>
-
-
+    <color name="elementNotSelected">#e0e0e0</color>
 </resources>
