@@ -1,6 +1,5 @@
 package de.frejaundalex.elementsequencing
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import de.frejaundalex.elementsequencing.add.AddActivity
+import de.frejaundalex.elementsequencing.add.AddDialogFragment
 import de.frejaundalex.elementsequencing.library.LibraryFragment
 import de.frejaundalex.elementsequencing.menu.HomeFragment
 import de.frejaundalex.elementsequencing.menu.ProfileFragment
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewModel.showAddAsanaFragment.observe(this, Observer {
-            if (it == true) showAddBook()
+            if (it == true) showAdd()
         })
 
         val menu = findViewById<BottomNavigationView>(R.id.menu)
@@ -61,8 +60,8 @@ class MainActivity : AppCompatActivity() {
         } else super.dispatchTouchEvent(ev)
     }
 
-    private fun showAddBook() {
-        startActivity(Intent(this, AddActivity::class.java))
+    private fun showAdd() {
+        AddDialogFragment().show(supportFragmentManager, "ADDDDDD")
     }
 
     private fun showSelfFragment() {
